@@ -11,12 +11,12 @@ public class practical2{
     public static void main(String[] args){
 
         int selection = 100000;
-        int val1,val2;
+        int val1,val2,val3;
         Scanner sc = new Scanner(System.in);
         
         while(selection != 0){
 
-            System.out.println("1 = factorial\n2 = fibbonacci\n3 = greatest common denominator\n4 = base conversion\n5 = tower of hanoi\n0 = exit program");
+            System.out.println("1 = factorial\n2 = fibbonacci\n3 = greatest common denominator\n4 = base conversion\n5 = tower of hanoi\n6 = tower of hanoi of lecture slides\n0 = exit program");
             selection = sc.nextInt();
 
             switch(selection){
@@ -49,7 +49,16 @@ public class practical2{
                 case 5:
                     System.out.print("Input the number of disk: ");
                     val1 = sc.nextInt();
-                    towerOfHanoi01(val1);
+                    towerOfHanoi(val1);
+                    break;
+                case 6:
+                    System.out.print("Input the number of disk: ");
+                    val1 = sc.nextInt();
+                    System.out.print("Input the source tower number: ");
+                    val2 = sc.nextInt();
+                    System.out.print("Input the destination tower number: ");
+                    val3 = sc.nextInt();
+                    towers(val1, val2, val3);
                     break;
                 case 0:
                     System.out.println("Exiting the program...");
@@ -160,29 +169,47 @@ public class practical2{
 
     // lifted from https://www.geeksforgeeks.org/dsa/c-program-for-tower-of-hanoi/
     // youtube visualisation https://www.youtube.com/watch?v=YstLjLCGmgg
-    public static void towerOfHanoi01(int a){
+    public static void towerOfHanoi(int a){
 
         if (a < 0)
             throw new IllegalArgumentException("Number of disks must be above 0.");
-        moveDisk01(a, '1', '3', '2');
+        moveDisk(a, '1', '3', '2');
     }
 
-    private static void moveDisk01(int n, char src, char dest, char aux){
+    private static void moveDisk(int n, char src, char dest, char aux){
 
         if (n == 0)
             return;
 
-        moveDisk01(n-1, src, aux, dest);
+        moveDisk(n-1, src, aux, dest);
 
         System.out.println("Moving disk " + n + " from Source " + src + " to Destination " + dest);
         System.out.println("n=" + n + ", src=" + src + ", dest=" + dest);
         System.out.println();
 
-        moveDisk01(n-1, aux, dest, src);
+        moveDisk(n-1, aux, dest, src);
 
     }
 
-    // lecture slide
-    public static void towerofHanoi02(int n, char src, char dest){}
+    // lecture slide's pseudo code
+    public static void towers(int n, int src, int dest){
+
+        int temp;
+        if (n == 1)
+            moveDsk(n, src, dest);
+        else {
+            temp = 6 - src - dest;
+
+            towers(n-1, src, temp);
+            moveDsk(n, src, dest);
+            towers(n-1, temp, dest);
+        }
+    }
+    public static void moveDsk(int n, int src, int dest){
+
+        System.out.println("Moving disk " + n + " from Source " + src + " to Destination " + dest);
+        System.out.println("n=" + n + ", src=" + src + ", dest=" + dest);
+        System.out.println();
+    }
     
 }
